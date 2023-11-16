@@ -23,8 +23,9 @@ export class UserService {
   //   return `This action returns all user`;
   // }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findByEmail(email: string) {
+    const user = this.prisma.user.findUnique({ where: { email } });
+    return user;
   }
 
   // update(id: number, updateUserDto: UpdateUserDto) {
