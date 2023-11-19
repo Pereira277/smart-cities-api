@@ -14,14 +14,17 @@ export class UserService {
       name: createUserDto.name,
       password: await bcrypt.hash(createUserDto.password, 10),
     };
+
+    // check if email is unique
+    const existingUser = await this.findByEmail(createUserDto.email);
+    if (existingUser) {
+      throw new Error('Email already in use');
+    }
+
     const createdUser = await this.prisma.user.create({ data });
 
     return { ...createdUser, password: undefined };
   }
-
-  // findAll() {
-  //   return `This action returns all user`;
-  // }
 
   findByEmail(email: string) {
     const user = this.prisma.user.findUnique({ where: { email } });

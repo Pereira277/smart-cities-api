@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/entities/user.entity';
 import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
-import { UserToken } from './models/UserToken';
+import { LoginResponse } from './models/UserToken';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +27,7 @@ export class AuthService {
     }
     throw new Error('Wrong email and/or password');
   }
-  login(user: User): UserToken {
+  login(user: User): LoginResponse {
     const payload: UserPayload = {
       sub: user.id,
       email: user.email,
@@ -37,6 +37,7 @@ export class AuthService {
     const jwtToken = this.jwtService.sign(payload);
     return {
       access_token: jwtToken,
+      user: payload,
     };
   }
 }
