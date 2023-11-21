@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Request,
@@ -24,6 +25,13 @@ export class IssueController {
   findAll() {
     return this.issueService.findAll();
   }
+
+  @Get('user')
+  findByAuthorId(@Request() req) {
+    return this.issueService.findByAuthorId(req.user.id);
+  }
+
+  // not implemented
 
   @Get(':id')
   findOne() {

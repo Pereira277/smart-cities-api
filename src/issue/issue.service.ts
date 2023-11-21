@@ -20,8 +20,17 @@ export class IssueService {
     return createdIssue;
   }
 
-  findAll() {
-    const issues = this.prisma.issue.findMany();
+  async findAll() {
+    const issues = await this.prisma.issue.findMany();
+    return issues;
+  }
+
+  findByAuthorId(authorId: number) {
+    const issues = this.prisma.issue.findMany({
+      where: {
+        authorId: authorId,
+      },
+    });
     return issues;
   }
 
